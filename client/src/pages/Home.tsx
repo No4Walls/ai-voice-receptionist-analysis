@@ -8,6 +8,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { usePdfDownload } from "@/hooks/usePdfDownload";
+import RoiCalculator from "@/components/RoiCalculator";
 import {
   AreaChart, Area, BarChart, Bar, RadarChart, Radar, PolarGrid,
   PolarAngleAxis, PolarRadiusAxis, PieChart, Pie, Cell,
@@ -249,7 +250,7 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       setNavScrolled(window.scrollY > 80);
-      const sections = ["overview", "market", "pestel", "swot", "players", "conclusion"];
+      const sections = ["overview", "market", "pestel", "swot", "players", "calculator", "conclusion"];
       for (const id of sections.reverse()) {
         const el = document.getElementById(id);
         if (el && window.scrollY >= el.offsetTop - 120) {
@@ -272,6 +273,7 @@ export default function Home() {
     { id: "pestel", label: "PESTEL" },
     { id: "swot", label: "SWOT" },
     { id: "players", label: "Key Players" },
+    { id: "calculator", label: "ROI Calculator" },
     { id: "conclusion", label: "Insights" },
   ];
 
@@ -1043,11 +1045,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── ROI Calculator ── */}
+      <section id="calculator" className="py-20 bg-gradient-to-b from-white to-indigo-50">
+        <div className="container">
+          <div className="relative mb-12">
+            <span className="section-number">06</span>
+            <div className="relative z-10 pt-8">
+              <p className="text-indigo-600 font-semibold text-sm uppercase tracking-wider mb-1">Personalized Analysis</p>
+              <h2 className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                ROI Calculator
+              </h2>
+              <p className="text-gray-500 mt-2 max-w-2xl text-sm leading-relaxed">
+                Estimate your personalized savings by entering your monthly call volume and current receptionist cost.
+                See your potential ROI, payback period, and 3-year financial projection instantly.
+              </p>
+            </div>
+          </div>
+          <RoiCalculator />
+        </div>
+      </section>
+
       {/* ── Strategic Conclusions ── */}
       <section id="conclusion" className="py-20 bg-white">
         <div className="container">
           <div className="relative mb-12">
-            <span className="section-number">05</span>
+            <span className="section-number">07</span>
             <div className="relative z-10 pt-8">
               <p className="text-indigo-600 font-semibold text-sm uppercase tracking-wider mb-1">Strategic Insights</p>
               <h2 className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
