@@ -7,6 +7,7 @@
  */
 
 import { useState, useEffect, useRef } from "react";
+import { usePdfDownload } from "@/hooks/usePdfDownload";
 import {
   AreaChart, Area, BarChart, Bar, RadarChart, Radar, PolarGrid,
   PolarAngleAxis, PolarRadiusAxis, PieChart, Pie, Cell,
@@ -17,7 +18,7 @@ import {
   CheckCircle2, AlertTriangle, Target, Zap,
   Building2, Stethoscope, Gavel, House, Scissors, DollarSign,
   Phone, Users, BarChart3, ArrowUpRight, ChevronDown,
-  Star, Award, Layers
+  Star, Award, Layers, Download, Loader2
 } from "lucide-react";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
@@ -243,6 +244,7 @@ function PlayerCard({ name, type, focus, funding, color }: {
 export default function Home() {
   const [activeSection, setActiveSection] = useState("overview");
   const [navScrolled, setNavScrolled] = useState(false);
+  const { downloadPdf, isGenerating, progress } = usePdfDownload();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -383,7 +385,7 @@ export default function Home() {
   const COLORS = ["#6366F1", "#3B82F6", "#10B981", "#F59E0B", "#EC4899"];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div id="pdf-content" className="min-h-screen bg-gray-50">
       {/* ── Navigation ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         navScrolled ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100" : "bg-transparent"
@@ -406,7 +408,29 @@ export default function Home() {
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-400 hidden sm:block">Market Analysis 2025</span>
+            <button
+              onClick={downloadPdf}
+              disabled={isGenerating}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed print:hidden"
+              style={{
+                background: isGenerating ? "#E0E7FF" : "linear-gradient(135deg, #1E3A8A, #6366F1)",
+                color: isGenerating ? "#4338CA" : "white",
+                boxShadow: isGenerating ? "none" : "0 2px 8px rgba(99,102,241,0.35)",
+              }}
+              title="Download full report as PDF"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 size={12} className="animate-spin" />
+                  <span className="hidden sm:inline">{progress > 0 ? `${progress}%` : "Preparing…"}</span>
+                </>
+              ) : (
+                <>
+                  <Download size={12} />
+                  <span className="hidden sm:inline">Download PDF</span>
+                </>
+              )}
+            </button>
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           </div>
         </div>

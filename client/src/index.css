@@ -240,3 +240,61 @@
     width: 100%;
   }
 }
+
+/* ── Print / PDF styles ──────────────────────────────────────────────────── */
+@media print {
+  /* Hide interactive chrome */
+  nav,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Reset backgrounds so content prints cleanly */
+  body {
+    background: white !important;
+    color: #111 !important;
+    font-size: 11pt;
+  }
+
+  /* Ensure sections start on fresh pages */
+  section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Force white backgrounds on cards */
+  .stat-card,
+  .pestel-card,
+  .swot-quadrant,
+  .bg-white,
+  .bg-gray-50 {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Expand all PESTEL accordions */
+  .pestel-card .overflow-hidden {
+    max-height: none !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+  }
+
+  /* Preserve gradient backgrounds */
+  .gradient-bg {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Ensure charts render */
+  .recharts-wrapper,
+  .recharts-surface {
+    overflow: visible !important;
+  }
+
+  /* Page margins */
+  @page {
+    margin: 15mm 12mm;
+    size: A4 portrait;
+  }
+}
